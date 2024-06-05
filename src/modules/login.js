@@ -21,8 +21,8 @@ import {getDatabase, ref, set, child, get} from "https://www.gstatic.com/firebas
 
 
 /*Atkuomentuoti sita vieta jeigu nori atsijungti */
-// localStorage.clear();
-/*Atkuomentuoti sita vieta jeigu nori atsijungti */
+localStorage.clear();
+
 
 
 
@@ -36,7 +36,6 @@ const db = getDatabase(app);
 const logIn = document.querySelector("button");
 let inputName = document.querySelector("#name");
 let inputPass = document.querySelector("#pass");
-let errorName = document.querySelector("#errorName");
 let errorPass = document.querySelector("#errorPass");
 
 
@@ -48,25 +47,23 @@ logIn.addEventListener("click", () => {
     errorName.innerHTML = "";
     errorPass.innerHTML = "";
     /*Kreipiamasi i duomenu baze pagal nurodyta input verte */
-    get(child(dbRef, `Users/${inputName.value}`))
+    get(child(dbRef, `users/`))
     .then((snapshot) => {
         if (snapshot.exists()) {
             let user = snapshot.val();
-            /*Patikrinama ar teisingi input duomenys */
-            if (inputName.value == user.name && inputPass.value == user.pass){
-                /*Issaugojamas prisijungimas i local storage ir nukeliama i pagrindini puslapi */
-                localStorage.setItem("loggedIn", "True")
-                console.log("yes");
-                location.href = "./main.html"
-            } else {
-                /*Klaidos pranesimas */
-                console.log("Wrong password");
-                errorPass.innerHTML = "Wrong password and (or) username";
+            for (let i in user){
+                if (inputName.value == user[i].username && inputPass.value == user[i].password){
+                    /*Issaugojamas prisijungimas i local storage ir nukeliama i pagrindini puslapi */
+                    localStorage.setItem("loggedIn", "True")
+                    console.log("yes");
+                    location.href = "./main.html";
+                    
+                }  else {
+                    /*Klaidos pranesimas */
+                    console.log("Wrong password");
+                    errorPass.innerHTML = "Wrong password and (or) username";
+                }
             }
-        } else {
-            /*Patikrinama ar vartotojas egzistuoja, ismetama klaida */
-            console.log("User does not exist");
-            errorName.innerHTML = "User does not exist";
         }
     })
 })
