@@ -1,43 +1,13 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/app.js":
 /*!********************!*\
   !*** ./src/app.js ***!
   \********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_test__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/test */ "./src/modules/test.js");
-// import renderRegistration from "./modules/renderRegistration";
 
-console.log("hello");
-document.querySelector("#registerButton").addEventListener("click", function (event) {
-  event.preventDefault();
-  console.log("hello");
-  var pageContents = document.querySelector(".renderPage");
-  pageContents.innerHTML = renderRegistration();
-});
-console.log(renderRegistration());
-(0,_modules_test__WEBPACK_IMPORTED_MODULE_0__["default"])();
-
-/***/ }),
-
-/***/ "./src/modules/test.js":
-/*!*****************************!*\
-  !*** ./src/modules/test.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-var test = function test() {
-  console.log("test");
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (test);
 
 /***/ }),
 
@@ -47,6 +17,7 @@ var test = function test() {
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
@@ -112,18 +83,6 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
 /******/ 		};
 /******/ 	})();
 /******/ 	
