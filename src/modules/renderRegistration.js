@@ -1,6 +1,7 @@
-const renderRegistration = () => {
-    return
-        `<div class="container text-center w-25 p-3">
+const registrationForm = () => {
+    return(
+        `
+        <div class="container text-center w-25 p-3">
         <h3>Register</h3>
         <form id="registerForm">
             <div class="form-group mb-2">
@@ -20,6 +21,6 @@ const renderRegistration = () => {
 
         </form>
         </div>
-        `
+        `)
 }
-export default renderRegistration;
+export default registrationForm;

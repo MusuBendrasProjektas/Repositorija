@@ -1,69 +1,63 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+import {getDatabase, ref, set, child, get} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyB7UD7ZASLB8yLwLQS7G_Qyybe_HbhntlA",
-  authDomain: "project1-9a622.firebaseapp.com",
-  projectId: "project1-9a622",
-  storageBucket: "project1-9a622.appspot.com",
-  messagingSenderId: "276140792515",
-  appId: "1:276140792515:web:09d2f4940c844c8a916076",
-  databaseURL: "https://musudatabaseprojektas-default-rtdb.europe-west1.firebasedatabase.app/"
-};
+const logIn = () => {
+    const firebaseConfig = {
+        apiKey: "AIzaSyB7UD7ZASLB8yLwLQS7G_Qyybe_HbhntlA",
+        authDomain: "project1-9a622.firebaseapp.com",
+        projectId: "project1-9a622",
+        storageBucket: "project1-9a622.appspot.com",
+        messagingSenderId: "276140792515",
+        appId: "1:276140792515:web:09d2f4940c844c8a916076",
+        databaseURL: "https://musudatabaseprojektas-default-rtdb.europe-west1.firebasedatabase.app/"
+      };
+      
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+      localStorage.clear();
+      
+      if (localStorage.loggedIn === "True"){
+          location.href = "./main.html";
+      }
+      
+      const db = getDatabase(app);
+      const logIn = document.querySelector("#logInForm");
+      let inputName = document.querySelector("#name");
+      let inputPass = document.querySelector("#pass");
+      let errorPass = document.querySelector("#errorPass");
 
-import {getDatabase, ref, set, child, get} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
-
-
-
-/*Atkuomentuoti sita vieta jeigu nori atsijungti */
-localStorage.clear();
-
-
-
-
-/*Patikrinama ar vartotojas jau prisijunges */
-if (localStorage.loggedIn === "True"){
-    location.href = "./main.html";
+      logIn.addEventListener("click", (event) => {
+          event.preventDefault();
+          const dbRef = ref(getDatabase());
+          errorName.innerHTML = "";
+          errorPass.innerHTML = "";
+          get(child(dbRef, `users/`))
+          .then((snapshot) => {
+              if (snapshot.exists()) {
+                  let user = snapshot.val();
+                  for (let i in user){
+                      if (inputName.value == user[i].username && inputPass.value == user[i].password){
+                            localStorage.setItem("loggedIn", "True")
+                            console.log("yes");
+                            errorPass.innerHTML = "Logged In";
+                      }
+                      if (inputName.value == user[i].username && inputPass.value != user[i].password){
+                            console.log("no");
+                            errorPass.innerHTML = "wrong pass";
+                      }
+                      if (inputName.value != user[i].username){
+                            console.log("no");
+                            errorPass.innerHTML = "User does not exist";
+                        }
+                  }
+              }
+          })
+      }) 
 }
 
-/*Apibreziami elementai*/
-const db = getDatabase(app);
-const logIn = document.querySelector("button");
-let inputName = document.querySelector("#name");
-let inputPass = document.querySelector("#pass");
-let errorPass = document.querySelector("#errorPass");
+export default logIn;
 
-
-/*Paspaudziamas log in mygtukas*/
-logIn.addEventListener("click", () => {
-    event.preventDefault();
-    const dbRef = ref(getDatabase());
-    /* istrinami esami klaidos pranesimai */
-    errorName.innerHTML = "";
-    errorPass.innerHTML = "";
-    /*Kreipiamasi i duomenu baze pagal nurodyta input verte */
-    get(child(dbRef, `users/`))
-    .then((snapshot) => {
-        if (snapshot.exists()) {
-            let user = snapshot.val();
-            for (let i in user){
-                if (inputName.value == user[i].username && inputPass.value == user[i].password){
-                    /*Issaugojamas prisijungimas i local storage ir nukeliama i pagrindini puslapi */
-                    localStorage.setItem("loggedIn", "True")
-                    console.log("yes");
-                    location.href = "./main.html";
-                    
-                }  else {
-                    /*Klaidos pranesimas */
-                    console.log("Wrong password");
-                    errorPass.innerHTML = "Wrong password and (or) username";
-                }
-            }
-        }
-    })
-})
